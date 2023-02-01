@@ -1,6 +1,6 @@
-from ..Algorithms.placement import sort_by_placement, is_valid_placement
-from ..List_Aid.Complete import is_complete
-from ..Personnel.Rank import update_rank
+from src.Algorithms.placement import sort_by_placement, is_valid_placement
+from src.List_Aid.Complete import is_complete
+from src.Personnel.Rank import update_rank
 
 
 def yael(shift_list, start_shift, personnel_list) -> list:

@@ -1,6 +1,6 @@
 from datetime import time, datetime, timedelta
-from ..Classes.TimeRange import TimeRange
-from ..Enum.Columns import Columns
+from src.Classes.TimeRange import TimeRange
+from src.Enum.Columns import Columns
 
 
 def create_availability_schedule(ws, personnel_list: list, date_start_row: int, date_end_row: int) -> list:

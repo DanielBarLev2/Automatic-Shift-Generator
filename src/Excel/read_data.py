@@ -1,8 +1,8 @@
-from ..List_Aid.Merge_and_Split import merge_lists
+from src.List_Aid.Merge_and_Split import merge_lists
 from datetime import time, datetime, timedelta
-from ..Classes.TimeRange import TimeRange
-from ..Enum.Columns import Columns
-from ..Classes.Shift import Shift
+from src.Classes.TimeRange import TimeRange
+from src.Enum.Columns import Columns
+from src.Classes.Shift import Shift
 
 
 def get_start_and_end_time(ws):

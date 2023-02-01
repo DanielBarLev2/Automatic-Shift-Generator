@@ -1,5 +1,5 @@
-from ..Classes.TimeRange import TimeRange
-from ..Classes.Person import Person
+from src.Classes.TimeRange import TimeRange
+from src.Classes.Person import Person
 
 
 class Shift:

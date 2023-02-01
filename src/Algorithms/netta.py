@@ -1,11 +1,10 @@
-from ..Excel.read_data import create_shift_list, back_counting_shift_list, find_limits, get_start_and_end_time
-from ..List_Aid.Merge_and_Split import merge_lists, split_lists
-from ..Excel.Availability import create_availability_schedule
-from ..Personnel.Personnel import create_personnel_list
-from ..Excel.write_data import write_shift_list
-from ..List_Aid.Complete import is_complete
-from ..Algorithms.yael import yael
-from ..Enum.Columns import Columns
+from src.Excel.read_data import create_shift_list, back_counting_shift_list, find_limits, get_start_and_end_time
+from src.List_Aid.Merge_and_Split import merge_lists, split_lists
+from src.Excel.Availability import create_availability_schedule
+from src.Personnel.Personnel import create_personnel_list
+from src.Excel.write_data import write_shift_list
+from src.Algorithms.yael import yael
+from src.Enum.Columns import Columns
 from openpyxl import load_workbook
 from datetime import datetime
 import tkinter as tk
