@@ -14,7 +14,7 @@ from tkinter import messagebox
 def load_and_divide_workbook():
     """
     Loads excel workbook and divides to sheets.
-    :return: Shift, Personnel and config worksheets. In aaaition, workbook.
+    :return: Shift, Personnel and config worksheets. In addition, workbook.
     """
 
     wb = load_workbook(filename=Columns.FILE_NAME.value)
@@ -84,6 +84,32 @@ def write_and_save_workbook(wb, ws_shift, control_shift_list: list, guard_shift_
     wb.save(filename=Columns.FILE_NAME.value)
 
 
+def send_end_massage(shift_list: list, personnel_list: list, load_time: datetime):
+    """
+
+    :param shift_list: list of control shifts.
+    :param personnel_list: list of personnel
+    :param load_time: load time
+    :return: send an end message
+    """
+    end_massage = ""
+    end_massage += "--- Shifts: \n"
+
+    for shift in shift_list:
+        end_massage += f'{shift.time_range} in {shift.person} \n'
+
+    end_massage += "--- Personnel: \n"
+    for person in personnel_list:
+        end_massage += f'{person} \n'
+        for available in person.availability_schedule:
+            end_massage += f'{available} \n'
+
+    # end of script message box
+    root = tk.Tk()
+    root.withdraw()
+    messagebox.showinfo("End", f'Total Time: {datetime.now() - load_time}' + "\n" + end_massage)
+
+
 def netta():
     """
     calls all the functions
@@ -101,7 +127,6 @@ def netta():
     start_row, end_row, date_start_row, date_end_row = \
         find_limits(ws=ws_shift, start_date_and_time=start, end_date_and_time=end)
 
-
     # read shifts from the past for future evaluation
     personnel_list = create_personnel(ws_personnel=ws_personnel, ws_shift=ws_shift, date_start_row=date_start_row,
                                       date_end_row=date_end_row)
@@ -115,26 +140,10 @@ def netta():
     # separate the list
     control_shift_list, guard_shift_list = split_lists(shift_list=shift_list, start_shift=start_shift)
 
-    print(f' end of algorithem: {datetime.now() - load_time}')
+    print(f' end of algorithm: {datetime.now() - load_time}')
 
     # Writes to control shifts column and guard shifts column.
     write_and_save_workbook(wb=workbook, ws_shift=ws_shift, control_shift_list=control_shift_list,
                             guard_shift_list=guard_shift_list, start_row=start_row, end_row=end_row)
 
-    # @todo: rewrite as a function.
-    end_massage = ""
-    end_massage += "--- Shifts: \n"
-
-    for shift in shift_list:
-        end_massage += f'{shift.time_range} in {shift.person} \n'
-
-    end_massage += "--- Personnel: \n"
-    for person in personnel_list:
-        end_massage += f'{person} \n'
-        for available in person.availability_schedule:
-            end_massage += f'{available} \n'
-
-    # end of script message box
-    root = tk.Tk()
-    root.withdraw()
-    messagebox.showinfo("End", f'Total Time: {datetime.now() - load_time}' + "\n"  + end_massage)
+    send_end_massage(shift_list, personnel_list, load_time)
