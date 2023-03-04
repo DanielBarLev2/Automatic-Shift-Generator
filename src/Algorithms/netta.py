@@ -4,6 +4,7 @@ from src.Excel.Availability import create_availability_schedule
 from src.Personnel.Personnel import create_personnel_list
 from src.Screen.massage_box import send_end_massage
 from src.Excel.write_data import write_shift_list
+from src.Algorithms.verify import verify_input
 from src.Algorithms.yael import yael
 from src.Enum.Columns import Columns
 from openpyxl import load_workbook
@@ -61,11 +62,10 @@ def create_shift(ws_shift, start_row: int, end_row: int, past_days: int) -> (lis
     return shift_list, start_shift
 
 
-def write_and_save_workbook(wb, ws_shift, control_shift_list: list, guard_shift_list: list, start_row: int,
+def write_and_save_workbook(ws_shift, control_shift_list: list, guard_shift_list: list, start_row: int,
                             end_row: int):
     """
     Writes to control shifts column and guard shifts column.
-    :param wb: workbook
     :param ws_shift: excel shift list.
     :param control_shift_list: list of control shifts.
     :param guard_shift_list: list of guard shifts.
@@ -80,8 +80,6 @@ def write_and_save_workbook(wb, ws_shift, control_shift_list: list, guard_shift_
     # write guard shift column
     write_shift_list(ws_shift, shift_list=guard_shift_list, start_row=start_row, end_row=end_row,
                      person_col=Columns.GUARD_PERSON.value)
-
-    wb.save(filename=Columns.FILE_NAME.value)
 
 
 def netta(start_date, end_date, past_days):
@@ -106,8 +104,11 @@ def netta(start_date, end_date, past_days):
 
     print(f' end of algorithm: {datetime.now() - load_time}')
 
-    # write_and_save_workbook(wb=workbook, ws_shift=ws_shift, control_shift_list=control_shift_list,
-    #                         guard_shift_list=guard_shift_list, start_row=start_row, end_row=end_row)
+    write_and_save_workbook(ws_shift=ws_shift, control_shift_list=control_shift_list,
+                            guard_shift_list=guard_shift_list, start_row=start_row, end_row=end_row)
+
+    verify_input()
+
+    # workbook.save(filename=Columns.FILE_NAME.value)
 
     send_end_massage(shift_list, personnel_list, load_time)
-

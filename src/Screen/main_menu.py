@@ -139,12 +139,13 @@ def unpack_and_send_data(drop_down_list):
 
     past_days = data[8]
 
-    netta.netta(start_date, end_date, past_days)
+    feedback = netta.netta(start_date, end_date, past_days)
 
 
 def create_send_button(window, drop_down_list):
     send_button = tk.Button(window, text="GO!", width=8,
-                            command=lambda: unpack_and_send_data(drop_down_list), bg='purple', fg='white', font=('Arial', 12))
+                            command=lambda: unpack_and_send_data(drop_down_list),
+                            bg='purple', fg='white', font=('Arial', 12))
 
     send_button.grid(column=3, row=3, padx=10, pady=10)
 
@@ -164,5 +165,3 @@ def run():
     create_send_button(window=window, drop_down_list=drop_down_list)
 
     window.mainloop()
-
-run()
