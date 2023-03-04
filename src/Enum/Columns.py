@@ -33,7 +33,7 @@ class Columns(Enum):
 
     CONTROL_SUPPORT = int(config['personnel_sheet']['control_support_col'])
     GUARD_SUPPORT = int(config['personnel_sheet']['guard_support_col'])
-    FIRST_PERSONNEL_ROW = int(config['personnel']['first_personnel_row'])
+    FIRST_PERSONNEL_ROW = int(config['personnel_sheet']['first_personnel_row'])
 
     # config sheet
     START_DATE = str(config['config_sheet']['start_date'])

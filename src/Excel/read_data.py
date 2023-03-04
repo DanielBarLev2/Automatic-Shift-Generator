@@ -5,23 +5,6 @@ from src.Enum.Columns import Columns
 from src.Classes.Shift import Shift
 
 
-def get_start_and_end_time(ws):
-    """
-    Reads start and end date time from config sheet.
-    :param ws: excel config worksheet.
-    :return: start and end datetime.
-    """
-    start_date = ws[Columns.START_DATE.value].value
-    end_date = ws[Columns.END_DATE.value].value
-    start_time = ws[Columns.START_TIME.value].value
-    end_time = ws[Columns.END_TIME.value].value
-
-    start_date = datetime.combine(start_date, start_time)
-    end_date = datetime.combine(end_date, end_time)
-
-    return start_date, end_date
-
-
 def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) -> (int, int, int, int):
     """
     Finds the column pointing on the desired start date, then finds the desired start time.

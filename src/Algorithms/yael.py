@@ -37,7 +37,7 @@ def yael(shift_list, start_shift, personnel_list) -> list:
                     # insert person to shift
                     shift.person = person.name
 
-                    # update rank matrix by sum
+                    # update rank matrix by summation
                     personnel_list = update_rank(personnel_list, person.name, shift.time_range.duration,
                                                  shift.shift_type)
 
