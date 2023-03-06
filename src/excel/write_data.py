@@ -1,7 +1,7 @@
 def write_shift_list(ws, shift_list: list, start_row: int, end_row: int, person_col: int):
     """
-    Write and place personnel by order from shift list into Excel workbook
-    :param ws: Excel worksheet
+    Write and place personnel by order from shift list into excel workbook
+    :param ws: excel worksheet
     :param shift_list: shift list to place in one column
     :param start_row: points on the first shift in the ws
     :param end_row: points on the last shift in the ws

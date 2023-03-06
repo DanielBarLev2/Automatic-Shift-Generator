@@ -1,8 +1,8 @@
-from src.List_Aid.Merge_and_Split import merge_lists
+from src.list_aid.Merge_and_Split import merge_lists
 from datetime import time, datetime, timedelta
-from src.Classes.TimeRange import TimeRange
-from src.Enum.Columns import Columns
-from src.Classes.Shift import Shift
+from src.classes.TimeRange import TimeRange
+from src.constants.Columns import Columns
+from src.classes.Shift import Shift
 
 
 def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) -> (int, int, int, int):
@@ -56,7 +56,7 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
 
 def create_shift_list(ws, start_row: int, end_row: int, time_col: int) -> list:
     """
-    Creates a shift list from Excel workbook from start row to end row.
+    Creates a shift list from excel workbook from start row to end row.
     :param ws: excel shift worksheet.
     :param start_row: the first shift in the sheet
     :param end_row: the last shift in the sheet.

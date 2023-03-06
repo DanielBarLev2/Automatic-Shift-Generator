@@ -1,5 +1,5 @@
-from src.Classes.Person import Person
-from src.Enum.Columns import Columns
+from src.classes.Person import Person
+from src.constants.Columns import Columns
 
 
 def create_personnel_list(ws) -> list:

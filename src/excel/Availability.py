@@ -1,9 +1,10 @@
+from src.algorithms.verify import is_valid_availability_name
 from datetime import time, datetime, timedelta
-from src.Classes.TimeRange import TimeRange
-from src.Enum.Columns import Columns
+from src.classes.TimeRange import TimeRange
+from src.constants.Columns import Columns
 
 
-def create_availability_schedule(ws, personnel_list: list, date_start_row: int, date_end_row: int) -> list:
+def create_availability_schedule(ws, personnel_list: list, date_start_row: int, date_end_row: int) -> (list, list):
     """
     creates a schedule for each person. contains the periods which the person is not present.
     the purpose is to valid that the person is available when he needs to be used.
@@ -19,6 +20,8 @@ def create_availability_schedule(ws, personnel_list: list, date_start_row: int, 
     # bounds
     row = date_start_row + 1
     end_row = date_end_row + Columns.DATE_CELL_SIZE.value
+
+    invalid_name_list = []
 
     while row < end_row or ws.cell(column=Columns.ATTENDANCE.value, row=row).value is not None:
 
@@ -52,10 +55,11 @@ def create_availability_schedule(ws, personnel_list: list, date_start_row: int, 
                 # store the values in an instance of date to date object
                 time_range = TimeRange(start_datetime, end_datetime)
 
-                for index, person in enumerate(personnel_list):
-                    if ws.cell(column=Columns.ATTENDANCE.value, row=row).value == person.name:
-                        personnel_list[index].availability_schedule.append(time_range)
+                personnel_list, invalid_person = is_valid_availability_name(ws, personnel_list, row, time_range)
+
+                if invalid_person:
+                    invalid_name_list.append(invalid_person)
 
         row += 1
 
-    return personnel_list
+    return personnel_list, invalid_name_list

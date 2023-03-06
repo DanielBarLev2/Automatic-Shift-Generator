@@ -1,8 +1,13 @@
+# from src.constants.Columns import Columns
 from datetime import datetime, timedelta
-from src.Algorithms import netta
+from src.algorithms import netta
+# import win32com.client as win32
 from tkinter import ttk
 import tkinter as tk
+# import subprocess
 import calendar
+# import pathlib
+# import os
 
 MONTH_LIST_NAME = ('January', 'February', 'March', 'April', 'May', 'June',
                    'July', 'August', 'September', 'October', 'November', 'December')
@@ -14,7 +19,6 @@ TIME_LIST_NAME = ("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00",
 RESOLUTION = "500x400"
 TITLE = "NETTA"
 HEADER = "Yael's Auto-Shift-Generation"
-ICON = 'Netta_Icon.ico'
 
 
 def create_window(window):
@@ -29,10 +33,6 @@ def create_window(window):
     position_down = int(window.winfo_screenheight() / 2 - window_height / 2)
 
     window.geometry("+{}+{}".format(position_right, position_down))
-
-    # Set the window icon
-    # window.iconbitmap(ICON)
-
 
 def crate_labels(window):
     title_label = tk.Label(window, text=HEADER, font=("Arial", 16))
@@ -52,7 +52,7 @@ def crate_labels(window):
 
 
 def create_drop_down_list(window):
-    account_drop_down = ttk.Combobox(window, values=tuple(range(0, 7)), width=8, justify="center")
+    account_drop_down = ttk.Combobox(window, values=tuple(range(0, 8)), width=8, justify="center")
     account_drop_down.grid(column=1, row=3, padx=10, pady=10)
     account_drop_down.current(2)
 
@@ -120,9 +120,42 @@ def set_default_value_to_drop_down_list(year_drop_down, month_drop_down, day_dro
     return year_drop_down, month_drop_down, day_drop_down, time_drop_down
 
 
+def create_send_button(window, drop_down_list):
+    send_button = tk.Button(window, text="GO!", width=8,
+                            command=lambda: unpack_and_send_data(drop_down_list),
+                            bg='purple', fg='white', font=('Arial', 12))
+
+    send_button.grid(column=1, row=4, padx=10, pady=10)
+
+
+# def create_open_workbook_button(window):
+#     open_button = tk.Button(window, text="Open", width=8,
+#                             command=lambda: open_workbook(),
+#                             bg='green', fg='white', font=('Arial', 12))
+#
+#     open_button.grid(column=2, row=4, padx=10, pady=10)
+#
+#
+# def create_close_workbook_button(window):
+#     open_button = tk.Button(window, text="Close", width=8,
+#                             command=lambda: close_workbook(),
+#                             bg='red', fg='white', font=('Arial', 12))
+#
+#     open_button.grid(column=3, row=4, padx=10, pady=10)
+#
+#
+# def create_open_settings_button(window):
+#     open_button = tk.Button(window, text="Settings", width=8,
+#                             command=lambda: open_setting(),
+#                             bg='blue', fg='white', font=('Arial', 12))
+#
+#     open_button.grid(column=4, row=4, padx=10, pady=10)
+
+
 def unpack_and_send_data(drop_down_list):
 
     data = []
+
     for combo_bix in drop_down_list:
         # convert month names into strings
         if combo_bix.get() in MONTH_LIST_NAME:
@@ -139,15 +172,34 @@ def unpack_and_send_data(drop_down_list):
 
     past_days = data[8]
 
-    feedback = netta.netta(start_date, end_date, past_days)
+    netta.netta(start_date, end_date, past_days)
 
 
-def create_send_button(window, drop_down_list):
-    send_button = tk.Button(window, text="GO!", width=8,
-                            command=lambda: unpack_and_send_data(drop_down_list),
-                            bg='purple', fg='white', font=('Arial', 12))
-
-    send_button.grid(column=3, row=3, padx=10, pady=10)
+# def open_workbook():
+#     workbook_path = Columns.FILE_NAME.value
+#     subprocess.call(['start', 'excel.exe', workbook_path], shell=True)
+#
+#
+# def close_workbook():
+#     # Path of the Excel workbook to open
+#     workbook_path = Columns.FILE_NAME.value
+#
+#     # Get the Excel application object
+#     excel = win32.Dispatch('Excel.Application')
+#
+#     # Check if the workbook is already open
+#     for wb in excel.Workbooks:
+#         if wb.FullName == workbook_path:
+#             wb.Close()
+#
+#     excel.Quit()
+#
+#
+# def open_setting():
+#     path = str(pathlib.Path.cwd().joinpath('src/config/config.ini'))
+#     path = path.replace(str("\\"), str("/"))
+#
+#     os.startfile(path)
 
 
 def run():
@@ -163,5 +215,8 @@ def run():
     drop_down_list += create_drop_down_list(window=window)
 
     create_send_button(window=window, drop_down_list=drop_down_list)
+    # create_open_workbook_button(window=window)
+    # create_close_workbook_button(window=window)
+    # create_open_settings_button(window=window)
 
     window.mainloop()

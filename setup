@@ -1,1 +1,0 @@
-pyinstaller  --debug --add-data="src;." --hidden-import=openpyxl --hidden-import=pathlib --hidden-import=configparser 'source\Netta - Auto Shifts Generator.py'

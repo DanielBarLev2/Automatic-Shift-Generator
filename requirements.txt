@@ -1,3 +1,5 @@
 openpyxl
 pathlib
 configparser
+tk==0.1.0
+matplotlib

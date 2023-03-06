@@ -3,16 +3,23 @@ from datetime import timedelta
 from enum import Enum
 import pathlib
 
-# get relative path of config.ini file
-path = str(pathlib.Path.cwd().joinpath('Config/config.ini'))
-path = path.replace(str("\\"), str("/"))
 
-# set config file as config
-config = ConfigParser()
-config.read(path, encoding="utf8")
+def set_path_confiig() -> ConfigParser:
+    # get relative path of config.ini file
+    path = str(pathlib.Path.cwd().joinpath('src/config/config.ini'))
+    path = path.replace(str("\\"), str("/"))
+
+    # set config file as config
+    config = ConfigParser()
+    config.read(path, encoding="utf8")
+
+    return config
 
 
 class Columns(Enum):
+
+    config: ConfigParser = set_path_confiig()
+
     # path for config
     FILE_NAME = config['path']['file_name']
 

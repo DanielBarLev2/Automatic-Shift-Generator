@@ -1,6 +1,6 @@
-from src.Classes.Person import Person
-from src.Enum.Columns import Columns
-from src.Classes.Shift import Shift
+from src.classes.Person import Person
+from src.constants.Columns import Columns
+from src.classes.Shift import Shift
 from datetime import timedelta
 
 

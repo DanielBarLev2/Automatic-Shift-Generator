@@ -8,4 +8,4 @@ class TimeRange(object):
         return max(self.start, time_range.start) < min(self.end, time_range.end)
 
     def __repr__(self):
-        return f' start: {self.start} - end: {self.end}. d = {self.duration}'
+        return f' {self.start} - {self.end}'
