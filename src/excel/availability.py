@@ -1,7 +1,7 @@
 from src.algorithms.verify import is_valid_availability_name
 from datetime import time, datetime, timedelta
 from src.classes.TimeRange import TimeRange
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 
 
 def create_availability_schedule(ws, personnel_list: list, date_start_row: int, date_end_row: int) -> (list, list):

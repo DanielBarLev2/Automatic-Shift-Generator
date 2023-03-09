@@ -1,5 +1,5 @@
 from src.classes.Person import Person
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 
 
 def create_personnel_list(ws) -> list:

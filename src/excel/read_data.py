@@ -1,7 +1,7 @@
-from src.list_aid.Merge_and_Split import merge_lists
+from src.list_aid.merge_and_split import merge_lists
 from datetime import time, datetime, timedelta
 from src.classes.TimeRange import TimeRange
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 from src.classes.Shift import Shift
 
 

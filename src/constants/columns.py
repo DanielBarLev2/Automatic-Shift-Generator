@@ -8,7 +8,6 @@ def set_path_confiig() -> ConfigParser:
     # get relative path of config.ini file
     path = str(pathlib.Path.cwd().joinpath('src/config/config.ini'))
     path = path.replace(str("\\"), str("/"))
-
     # set config file as config
     config = ConfigParser()
     config.read(path, encoding="utf8")
@@ -17,7 +16,6 @@ def set_path_confiig() -> ConfigParser:
 
 
 class Columns(Enum):
-
     config: ConfigParser = set_path_confiig()
 
     # path for config
@@ -41,18 +39,6 @@ class Columns(Enum):
     CONTROL_SUPPORT = int(config['personnel_sheet']['control_support_col'])
     GUARD_SUPPORT = int(config['personnel_sheet']['guard_support_col'])
     FIRST_PERSONNEL_ROW = int(config['personnel_sheet']['first_personnel_row'])
-
-    # config sheet
-    START_DATE = str(config['config_sheet']['start_date'])
-    END_DATE = str(config['config_sheet']['end_date'])
-    START_TIME = str(config['config_sheet']['start_time'])
-    END_TIME = str(config['config_sheet']['end_time'])
-
-    # back counting shift list days
-    PAST_DAYS = int(config['past']['reference'])
-
-    # config sheet
-    CONFIG_SHEET_NAME = config['config_sheet']['sheet_name']
 
     # set by default to 8 hours
     MAX_GAP = timedelta(0, 0, 0, 0, 0, int(config['gap']['max_gap']), 0)

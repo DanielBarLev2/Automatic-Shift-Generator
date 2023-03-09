@@ -1,5 +1,5 @@
 from src.classes.Person import Person
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 from src.classes.Shift import Shift
 from datetime import timedelta
 

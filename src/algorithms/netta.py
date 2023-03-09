@@ -1,10 +1,10 @@
 from src.algorithms.verify import is_valid_personnel_names, is_valid_time_range
 from src.excel.read_data import create_shift_list, back_counting_shift_list, find_limits
-from src.list_aid.Merge_and_Split import merge_lists, split_lists
-from src.excel.Availability import create_availability_schedule
-from src.personnel.Personnel import create_personnel_list
+from src.list_aid.merge_and_split import merge_lists, split_lists
+from src.excel.availability import create_availability_schedule
+from src.personnel.personnel import create_personnel_list
 from src.excel.write_data import write_shift_list
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 from src.algorithms.yael import yael
 from src.screen.massage_box import *
 from openpyxl import load_workbook
@@ -33,6 +33,11 @@ def load_and_divide_workbook():
                 return None, None, None
 
         except FileNotFoundError:
+            answer = send_file_not_found_error(Columns.FILE_NAME.value)
+            if answer == "cancel":
+                return None, None, None
+
+        except:
             answer = send_file_not_found_error(Columns.FILE_NAME.value)
             if answer == "cancel":
                 return None, None, None
@@ -126,16 +131,18 @@ def netta(start_date, end_date, past_days):
                     invalid_name_list = is_valid_personnel_names(shift_list, personnel_list)
 
                     if send_invalid_person_name_error(invalid_name_list):
-                        shift_list = yael(shift_list, start_shift, personnel_list)
 
-                        control_shift_list, guard_shift_list = split_lists(shift_list=shift_list,
-                                                                           start_shift=start_shift)
+                        if send_not_complete_past_error(shift_list, start_shift):
+                            shift_list = yael(shift_list, start_shift, personnel_list)
 
-                        write_and_save_workbook(ws_shift=ws_shift, control_shift_list=control_shift_list,
-                                                guard_shift_list=guard_shift_list, start_row=start_row, end_row=end_row)
+                            control_shift_list, guard_shift_list = split_lists(shift_list=shift_list,
+                                                                               start_shift=start_shift)
 
-                        if send_failed_massage(shift_list):
+                            write_and_save_workbook(ws_shift=ws_shift, control_shift_list=control_shift_list,
+                                                    guard_shift_list=guard_shift_list,
+                                                    start_row=start_row, end_row=end_row)
 
-                            workbook.save(filename=Columns.FILE_NAME.value)
+                            if send_failed_massage(shift_list):
+                                workbook.save(filename=Columns.FILE_NAME.value)
 
-                            send_end_massage(load_time)
+                                send_end_massage(load_time)

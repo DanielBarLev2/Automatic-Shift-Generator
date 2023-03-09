@@ -1,4 +1,4 @@
-from src.constants.Columns import Columns
+from src.constants.columns import Columns
 from datetime import datetime
 
 

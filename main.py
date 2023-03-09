@@ -1,4 +1,4 @@
-from src.screen import main_menu, test
+from src.screen import menu
 
-if __name__ == "__main__":
-    test.run()
+if __name__ == '__main__':
+    menu.run()

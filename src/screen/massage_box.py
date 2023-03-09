@@ -2,7 +2,7 @@ from tkinter import messagebox
 from datetime import datetime
 import tkinter as tk
 
-from src.list_aid.Complete import is_complete
+from src.list_aid.complete import is_complete
 
 
 def send_end_massage(load_time: datetime):
@@ -22,8 +22,7 @@ def send_failed_massage(shift_list: list):
     """
     if not is_complete(shift_list):
 
-        massage = "Something went wrong. \nCheck your inputs again. \nIf the Problem do not resolved, contact me at " \
-                  "0547688892.\n"
+        massage = "Something went wrong. \nCheck your inputs again. \n"
         root = tk.Tk()
         root.withdraw()
         messagebox.showinfo("Failed", massage)
@@ -101,15 +100,15 @@ def send_open_file_error():
     return messagebox.showinfo("opened file error", massage, icon=messagebox.WARNING, type=messagebox.OKCANCEL)
 
 
-# def send_file_not_found_error(path):
-#     """
-#     send a file not found error
-#     """
-#     massage = f'The Worksheet cannot be found at {path}. \nrelocate Worksheet path or update it.'
-#     root = tk.Tk()
-#     root.withdraw()
-#
-#     return messagebox.showinfo("file not found", massage, icon=messagebox.WARNING, type=messagebox.OKCANCEL)
+def send_file_not_found_error(path):
+    """
+    send a file not found error
+    """
+    massage = f'The Worksheet cannot be found at {path}. \nrelocate Worksheet path or update it.'
+    root = tk.Tk()
+    root.withdraw()
+
+    return messagebox.showinfo("file not found", massage, icon=messagebox.WARNING, type=messagebox.OKCANCEL)
 
 
 def send_not_enough_personnel_warning(personnel_list: list):
@@ -131,5 +130,17 @@ def send_not_enough_personnel_warning(personnel_list: list):
         root.withdraw()
 
         return messagebox.askokcancel("Personnel warning", massage, icon=messagebox.WARNING, type=messagebox.OKCANCEL)
+    else:
+        return True
+
+
+def send_not_complete_past_error(shift_list, start_shift):
+    if not is_complete(shift_list[0:start_shift]):
+        massage = "You selected a time period too far away. \nNot all past shift are filled."
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showinfo("Failed", massage)
+
+        return False
     else:
         return True
