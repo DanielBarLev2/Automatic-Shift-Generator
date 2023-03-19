@@ -1,6 +1,5 @@
-from src.screen.button_functions import *
-from src.classes.MyThread import MyThread
 from datetime import timedelta
+from src.screen.button_functions import *
 from tkinter import ttk
 import tkinter as tk
 import calendar
@@ -13,7 +12,7 @@ def create_window(window):
 
 
 def crate_labels(window):
-    title_label = tk.Label(window, text="הפקשטומטי של יעלי", font="Times  16")
+    title_label = tk.Label(window, text="Yael's Auto-Shift-Generation", font="Times  16")
     title_label.grid(column=1, row=0, columnspan=4, pady=20, padx=40)
 
     from_label = tk.Label(window, text="From:")
@@ -107,9 +106,9 @@ def set_default_value_to_drop_down_list(year_drop_down, month_drop_down, day_dro
     return year_drop_down, month_drop_down, day_drop_down, time_drop_down
 
 
-def create_send_button(window, drop_down_list, thread_open_workbook):
+def create_send_button(window, drop_down_list):
     send_button = tk.Button(window, text="Generate", width=8,
-                            command=lambda: pack_and_send_data(drop_down_list, thread_open_workbook),
+                            command=lambda: pack_and_send_data(drop_down_list),
                             bg='purple', fg='white', font=('Arial', 10))
 
     send_button.grid(column=1, row=4, padx=10, pady=10)
@@ -142,10 +141,6 @@ def create_open_settings_button(window):
 def run():
     window = tk.Tk()
 
-    # starts opening workbook to save time
-    thread_open_workbook = MyThread()
-    thread_open_workbook.start()
-
     create_window(window=window)
 
     crate_labels(window=window)
@@ -155,7 +150,7 @@ def run():
     drop_down_list += create_drop_down_list_for_date(window=window, row="to")
     drop_down_list += create_drop_down_list(window=window)
 
-    create_send_button(window=window, drop_down_list=drop_down_list, thread_open_workbook=thread_open_workbook)
+    create_send_button(window=window, drop_down_list=drop_down_list)
     create_open_workbook_button(window=window)
     create_close_workbook_button(window=window)
     create_open_settings_button(window=window)
