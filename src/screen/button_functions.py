@@ -8,7 +8,7 @@ import pathlib
 import os
 
 
-def pack_and_send_data(drop_down_list):
+def pack_and_send_data(drop_down_list, thread_open_workbook):
     month_list_name = ('January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December')
 
@@ -34,7 +34,15 @@ def pack_and_send_data(drop_down_list):
 
     past_days = data[8]
 
-    netta(start_date, end_date, past_days)
+    # wait for the workbook to finish loading
+    thread_open_workbook.join()
+
+    ws_shift, ws_personnel, wb = thread_open_workbook.value
+
+    if ws_shift and ws_personnel and wb:
+        netta(start_date, end_date, past_days, ws_shift, ws_personnel, wb)
+    else:
+        send_file_not_found_error(Columns.FILE_NAME.value)
 
 
 def open_workbook():

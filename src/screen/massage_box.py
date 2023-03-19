@@ -1,19 +1,17 @@
 from tkinter import messagebox
-from datetime import datetime
 import tkinter as tk
 
 from src.list_aid.complete import is_complete
 
 
-def send_end_massage(load_time: datetime):
+def send_end_massage():
     """
     send an end message
-    :param load_time: load time
     """
-    massage = ""
+    massage = "Done"
     root = tk.Tk()
     root.withdraw()
-    messagebox.showinfo("Success", f'Total Time: {datetime.now() - load_time}' + "\n" + massage)
+    messagebox.showinfo("Success", massage)
 
 
 def send_failed_massage(shift_list: list):
