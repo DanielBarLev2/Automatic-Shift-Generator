@@ -8,15 +8,13 @@ from src.constants.columns import Columns
 from src.algorithms.yael import yael
 from src.screen.massage_box import *
 from openpyxl import load_workbook
-from datetime import datetime
 
 
-def load_and_divide_workbook():
+def load_and_divide_workbook() -> tuple:
     """
     Loads excel workbook and divides to sheets.
     :return: Shift, personnel and config worksheets. In addition, workbook.
     """
-
     while True:
         try:
             wb = load_workbook(filename=Columns.FILE_NAME.value)
@@ -99,18 +97,16 @@ def write_and_save_workbook(ws_shift, control_shift_list: list, guard_shift_list
                      person_col=Columns.GUARD_PERSON.value)
 
 
-def netta(start_date, end_date, past_days):
+def netta(start_date, end_date, past_days, ws_shift, ws_personnel, wb):
     """
     calls all the functions
     """
-
-    load_time = datetime.now()
 
     valid_setup = is_valid_time_range(start_date, end_date, past_days)
 
     if send_time_set_error(valid_setup):
 
-        ws_shift, ws_personnel, workbook = load_and_divide_workbook()
+        ws_shift, ws_personnel, workbook = ws_shift, ws_personnel, wb
 
         if ws_shift and ws_personnel and workbook:
 
@@ -145,4 +141,4 @@ def netta(start_date, end_date, past_days):
                             if send_failed_massage(shift_list):
                                 workbook.save(filename=Columns.FILE_NAME.value)
 
-                                send_end_massage(load_time)
+                                send_end_massage()
