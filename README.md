@@ -1,3 +1,3 @@
 # Automatic-Shift-Generator
-At first lunch, locate the path of the Excel file.
-Next, open Nette.exe, press "Settings" and replace the current path with your own path.
+for quick execution:
+pyinstaller --onefile --hidden-import=openpyxl --name "Netta" --icon "C:\Users\danie\PycharmProjects\Automatic-Shift-Generator\media\Netta_Art.ico"  --noconsole  --workpath=C:\virsion-test  main.py

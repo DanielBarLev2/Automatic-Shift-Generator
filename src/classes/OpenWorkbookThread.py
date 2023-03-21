@@ -18,22 +18,9 @@ class OpenWorkbookThread(Thread):
 
         Thread.__init__(self)
         self.value = None
-        self.status = True
-
-    def set_status(self, status):
-        self.status = status
 
     def run(self):
         """
         open excel workbook in a different thread
         """
         self.value = load_and_divide_workbook()
-
-
-    def rerun(self):
-        """
-        Reruns the thread if the status is false.
-        Hence, the workbook has been modified and it needs to be updated
-        """
-        self.status = True
-        self.run()

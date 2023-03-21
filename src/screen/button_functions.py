@@ -37,10 +37,6 @@ def pack_and_send_data(drop_down_list, open_workbook_thread):
     # wait for the workbook to finish loading
     open_workbook_thread.join()
 
-    # tests whether the thread needs to be rerun:
-    if not open_workbook_thread.status:
-        open_workbook_thread.rerun()
-
     ws_shift, ws_personnel, wb = open_workbook_thread.value
 
     if ws_shift and ws_personnel and wb:
@@ -56,24 +52,23 @@ def open_workbook(open_workbook_thread):
     except FileNotFoundError:
         send_file_not_found_error(Columns.FILE_NAME.value)
 
-    open_workbook_thread.set_status(False)
-
 
 def close_workbook(open_workbook_thread):
+
     # Path of the Excel workbook to open
     workbook_path = Columns.FILE_NAME.value
 
     # Get the Excel application object
     excel = win32.Dispatch('Excel.Application')
 
-    # Check if the workbook is already open
+    # Check if the workbook is open
     for wb in excel.Workbooks:
         if wb.FullName == workbook_path:
             wb.Close()
 
     excel.Quit()
 
-    open_workbook_thread.set_status(False)
+    open_workbook_thread.run()
 
 
 def open_setting():
