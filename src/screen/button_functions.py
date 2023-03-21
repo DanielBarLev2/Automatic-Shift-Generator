@@ -8,7 +8,7 @@ import pathlib
 import os
 
 
-def pack_and_send_data(drop_down_list, thread_open_workbook):
+def pack_and_send_data(drop_down_list, open_workbook_thread):
     month_list_name = ('January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December')
 
@@ -35,9 +35,13 @@ def pack_and_send_data(drop_down_list, thread_open_workbook):
     past_days = data[8]
 
     # wait for the workbook to finish loading
-    thread_open_workbook.join()
+    open_workbook_thread.join()
 
-    ws_shift, ws_personnel, wb = thread_open_workbook.value
+    # tests whether the thread needs to be rerun:
+    if not open_workbook_thread.status:
+        open_workbook_thread.rerun()
+
+    ws_shift, ws_personnel, wb = open_workbook_thread.value
 
     if ws_shift and ws_personnel and wb:
         netta(start_date, end_date, past_days, ws_shift, ws_personnel, wb)
@@ -45,15 +49,17 @@ def pack_and_send_data(drop_down_list, thread_open_workbook):
         send_file_not_found_error(Columns.FILE_NAME.value)
 
 
-def open_workbook():
+def open_workbook(open_workbook_thread):
     workbook_path = Columns.FILE_NAME.value
     try:
         subprocess.call(['start', 'excel.exe', workbook_path], shell=True)
     except FileNotFoundError:
         send_file_not_found_error(Columns.FILE_NAME.value)
 
+    open_workbook_thread.set_status(False)
 
-def close_workbook():
+
+def close_workbook(open_workbook_thread):
     # Path of the Excel workbook to open
     workbook_path = Columns.FILE_NAME.value
 
@@ -66,6 +72,8 @@ def close_workbook():
             wb.Close()
 
     excel.Quit()
+
+    open_workbook_thread.set_status(False)
 
 
 def open_setting():
