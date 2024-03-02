@@ -75,7 +75,7 @@ def create_shift_list(ws, start_row: int, end_row: int, time_col: int) -> list:
 
                 # extracts start and end time from the workbook
                 start_time = int(str.split(str.split(str(ws.cell(column=time_col, row=start_row).value))[0], ":")[0])
-                end_time = int(str.split(str.split(str(ws.cell(column=time_col, row=start_row).value))[2], ":")[0])
+                end_time = int(str.split(str.split(ws.cell(column=time_col, row=start_row).value)[2], ":")[0])
 
                 # distinguishes between shift types and insert person
                 shift_type = None

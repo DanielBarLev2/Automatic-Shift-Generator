@@ -13,7 +13,7 @@ def create_window(window):
 
 
 def crate_labels(window):
-    title_label = tk.Label(window, text="הפקשטומטי של יעלי", font="Times  16")
+    title_label = tk.Label(window, text="הפקשטומטי של שלו", font="Times  16")
     title_label.grid(column=1, row=0, columnspan=4, pady=20, padx=40)
 
     from_label = tk.Label(window, text="From:")
@@ -124,7 +124,7 @@ def create_open_workbook_button(window, open_workbook_thread):
 
 
 def create_close_workbook_button(window, open_workbook_thread):
-    close_button = tk.Button(window, text="Close Excel", width=8,
+    close_button = tk.Button(window, text="Save Excel", width=8,
                             command=lambda: close_workbook(open_workbook_thread),
                             bg='red', fg='white', font=('Arial', 10))
 
