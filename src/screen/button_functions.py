@@ -37,7 +37,6 @@ def pack_and_send_data(drop_down_list):
     netta(start_date=start_date, end_date=end_date, past_days=past_days)
 
 
-
 def open_workbook():
     workbook_path = Columns.FILE_NAME.value
     try:

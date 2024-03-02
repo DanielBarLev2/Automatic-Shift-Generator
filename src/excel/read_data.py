@@ -18,9 +18,8 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
     start_row = 1
 
     # finds starting date
-    cell = ws.cell(column=Columns.DATE.value, row=start_row).value
-
     while start_row < Columns.MAX_ROW_LIMIT.value:
+        cell = ws.cell(column=Columns.DATE.value, row=start_row).value
         if isinstance(cell, datetime):
             if cell.date() == start_date_and_time.date():
                 break
@@ -29,9 +28,8 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
     date_to_start = start_row
 
     # finds starting time
-    cell = ws.cell(column=Columns.CONTROL_TIME.value, row=start_row).value
-
     while start_row < start_row + Columns.DATE_CELL_SIZE.value:
+        cell = ws.cell(column=Columns.CONTROL_TIME.value, row=start_row).value
         if cell is not None:
             if str(start_date_and_time.time().hour) in \
                     str.split(cell)[0]:
@@ -41,9 +39,8 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
     end_row = start_row
 
     # finds ending date
-    cell = ws.cell(column=Columns.DATE.value, row=end_row).value
-
     while end_row < Columns.MAX_ROW_LIMIT.value:
+        cell = ws.cell(column=Columns.DATE.value, row=end_row).value
         if isinstance(cell, datetime):
             if cell.date() == end_date_and_time.date():
                 break
@@ -72,8 +69,8 @@ def create_shift_list(worksheet, start_row: int, end_row: int, time_col: int) ->
 
     shift_list = []
 
-    cell = worksheet.cell(column=time_col, row=start_row)
     while start_row <= end_row:
+        cell = worksheet.cell(column=time_col, row=start_row)
         # Iterates through real cells and skips merged cells.
         if type(cell).__name__ == 'Cell':
             # find only empty cells
