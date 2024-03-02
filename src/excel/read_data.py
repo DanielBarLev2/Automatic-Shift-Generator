@@ -54,10 +54,10 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
     return start_row, end_row, date_to_start, date_to_end
 
 
-def create_shift_list(ws, start_row: int, end_row: int, time_col: int) -> list:
+def create_shift_list(worksheet, start_row: int, end_row: int, time_col: int) -> list:
     """
     Creates a shift list from excel workbook from start row to end row.
-    :param ws: excel shift worksheet.
+    :param worksheet: excel shift worksheet.
     :param start_row: the first shift in the sheet
     :param end_row: the last shift in the sheet.
     :param time_col: the column that contains the time values stored at the sheet.
@@ -68,14 +68,14 @@ def create_shift_list(ws, start_row: int, end_row: int, time_col: int) -> list:
 
     while start_row <= end_row:
         # Iterates through real cells and skips merged cells.
-        if type(ws.cell(column=time_col, row=start_row)).__name__ == 'Cell':
+        if type(worksheet.cell(column=time_col, row=start_row)).__name__ == 'Cell':
             # find only empty cells
-            if ws.cell(column=time_col, row=start_row).value is not None\
-                    and ws.cell(column=(time_col + 1), row=start_row).value != " ":
+            if worksheet.cell(column=time_col, row=start_row).value is not None\
+                    and worksheet.cell(column=(time_col + 1), row=start_row).value != " ":
 
                 # extracts start and end time from the workbook
-                start_time = int(str.split(str.split(str(ws.cell(column=time_col, row=start_row).value))[0], ":")[0])
-                end_time = int(str.split(str.split(ws.cell(column=time_col, row=start_row).value)[2], ":")[0])
+                start_time = int(str.split(str.split(str(worksheet.cell(column=time_col, row=start_row).value))[0], ":")[0])
+                end_time = int(str.split(str.split(worksheet.cell(column=time_col, row=start_row).value)[2], ":")[0])
 
                 # distinguishes between shift types and insert person
                 shift_type = None
@@ -83,19 +83,19 @@ def create_shift_list(ws, start_row: int, end_row: int, time_col: int) -> list:
 
                 if time_col == Columns.CONTROL_TIME.value:
                     shift_type = "Control"
-                    person = ws.cell(column=Columns.CONTROL_PERSON.value, row=start_row).value
+                    person = worksheet.cell(column=Columns.CONTROL_PERSON.value, row=start_row).value
 
                 elif time_col == Columns.GUARD_TIME.value:
                     shift_type = "Guard"
-                    person = ws.cell(column=Columns.GUARD_PERSON.value, row=start_row).value
+                    person = worksheet.cell(column=Columns.GUARD_PERSON.value, row=start_row).value
 
                 # reads the current date from excel
                 date_start_row = start_row
-                while ws.cell(column=Columns.DATE.value, row=date_start_row).value is None:
+                while worksheet.cell(column=Columns.DATE.value, row=date_start_row).value is None:
                     date_start_row -= 1
 
                 # update the date with respect to merged cells
-                date = ws.cell(column=Columns.DATE.value, row=date_start_row).value.date()
+                date = worksheet.cell(column=Columns.DATE.value, row=date_start_row).value.date()
 
                 start_datetime = datetime.combine(date, time(start_time, 0, 0))
                 end_datetime = start_datetime

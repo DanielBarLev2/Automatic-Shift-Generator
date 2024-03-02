@@ -56,4 +56,4 @@ def is_valid_time_range(start_date, end_date, past_days):
     if start_date > end_date:
         return "Start date cannot be set after end date"
 
-    return "No errors"
+    return None
