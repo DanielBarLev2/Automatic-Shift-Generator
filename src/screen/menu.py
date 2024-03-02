@@ -1,19 +1,24 @@
-from src.classes.OpenWorkbookThread import OpenWorkbookThread
+# from src.classes.OpenWorkbookThread import OpenWorkbookThread
 from src.screen.button_functions import *
 from datetime import timedelta
 from tkinter import ttk
 import tkinter as tk
 import calendar
 
+HEADER = "הפקשטומטי של שלו"
+SCREEN_HEADER = "Netta"
+RESOLUTION = "480x350"
+ICON_PATH = "media/Netta_Art.ico"
+
 
 def create_window(window):
-    window.geometry("480x350")
-    window.title("Netta")
-    window.iconbitmap("media/Netta_Art.ico")
+    window.geometry(RESOLUTION)
+    window.title(SCREEN_HEADER)
+    window.iconbitmap(ICON_PATH)
 
 
 def crate_labels(window):
-    title_label = tk.Label(window, text="הפקשטומטי של שלו", font="Times  16")
+    title_label = tk.Label(window, text=HEADER, font="Times  16")
     title_label.grid(column=1, row=0, columnspan=4, pady=20, padx=40)
 
     from_label = tk.Label(window, text="From:")
@@ -107,26 +112,38 @@ def set_default_value_to_drop_down_list(year_drop_down, month_drop_down, day_dro
     return year_drop_down, month_drop_down, day_drop_down, time_drop_down
 
 
-def create_send_button(window, drop_down_list, open_workbook_thread):
-    send_button = tk.Button(window, text="Generate", width=8,
-                            command=lambda: pack_and_send_data(drop_down_list, open_workbook_thread),
-                            bg='purple', fg='white', font=('Arial', 10))
+def create_generate_button(window, drop_down_list):
+    send_button = tk.Button(window,
+                            text="Generate",
+                            width=8,
+                            command=lambda: pack_and_send_data(drop_down_list),
+                            bg='purple',
+                            fg='white',
+                            font=('Arial', 10))
 
     send_button.grid(column=1, row=4, padx=10, pady=10)
 
 
-def create_open_workbook_button(window, open_workbook_thread):
-    open_button = tk.Button(window, text="Open Excel", width=8,
-                            command=lambda: open_workbook(open_workbook_thread),
-                            bg='green', fg='white', font=('Arial', 10))
+def create_open_workbook_button(window):
+    open_button = tk.Button(window,
+                            text="Open Excel",
+                            width=8,
+                            command=lambda: open_workbook(),
+                            bg='green',
+                            fg='white',
+                            font=('Arial', 10))
 
     open_button.grid(column=2, row=4, padx=10, pady=10)
 
 
-def create_close_workbook_button(window, open_workbook_thread):
-    close_button = tk.Button(window, text="Save Excel", width=8,
-                            command=lambda: close_workbook(open_workbook_thread),
-                            bg='red', fg='white', font=('Arial', 10))
+def create_close_workbook_button(window):
+    close_button = tk.Button(window,
+                             text="Save Excel",
+                             width=8,
+                             command=lambda: close_workbook(),
+                             bg='red',
+                             fg='white',
+                             font=('Arial', 10))
 
     close_button.grid(column=3, row=4, padx=10, pady=10)
 
@@ -134,19 +151,19 @@ def create_close_workbook_button(window, open_workbook_thread):
 
 
 def create_open_settings_button(window):
-    settings_button = tk.Button(window, text="Settings", width=8,
-                            command=lambda: open_setting(),
-                            bg='blue', fg='white', font=('Arial', 10))
+    settings_button = tk.Button(window,
+                                text="Settings",
+                                width=8,
+                                command=lambda: open_setting(),
+                                bg='blue',
+                                fg='white',
+                                font=('Arial', 10))
 
     settings_button.grid(column=4, row=4, padx=10, pady=10)
 
 
 def run():
     window = tk.Tk()
-
-    # starts opening workbook to save time
-    open_workbook_thread = OpenWorkbookThread()
-    open_workbook_thread.start()
 
     create_window(window=window)
 
@@ -157,9 +174,9 @@ def run():
     drop_down_list += create_drop_down_list_for_date(window=window, row="to")
     drop_down_list += create_drop_down_list(window=window)
 
-    create_send_button(window=window, drop_down_list=drop_down_list, open_workbook_thread=open_workbook_thread)
-    create_open_workbook_button(window=window, open_workbook_thread=open_workbook_thread)
-    create_close_workbook_button(window=window, open_workbook_thread=open_workbook_thread)
+    create_generate_button(window=window, drop_down_list=drop_down_list)
+    create_open_workbook_button(window=window)
+    create_close_workbook_button(window=window)
     create_open_settings_button(window=window)
 
     window.mainloop()

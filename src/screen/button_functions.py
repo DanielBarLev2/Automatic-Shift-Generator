@@ -1,6 +1,6 @@
 from src.screen.massage_box import send_file_not_found_error
 from src.constants.columns import Columns
-from src.algorithms.netta import netta
+from src.algorithms.netta import netta, load_and_divide_workbook
 #import win32com.client as win32
 from datetime import datetime
 import subprocess
@@ -8,7 +8,7 @@ import pathlib
 import os
 
 
-def pack_and_send_data(drop_down_list, open_workbook_thread):
+def pack_and_send_data(drop_down_list):
     month_list_name = ('January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December')
 
@@ -34,10 +34,7 @@ def pack_and_send_data(drop_down_list, open_workbook_thread):
 
     past_days = data[8]
 
-    # wait for the workbook to finish loading
-    open_workbook_thread.join()
-
-    ws_shift, ws_personnel, wb = open_workbook_thread.value
+    ws_shift, ws_personnel, wb = load_and_divide_workbook()
 
     if ws_shift and ws_personnel and wb:
         netta(start_date, end_date, past_days, ws_shift, ws_personnel, wb)
@@ -45,7 +42,7 @@ def pack_and_send_data(drop_down_list, open_workbook_thread):
         send_file_not_found_error(Columns.FILE_NAME.value)
 
 
-def open_workbook(open_workbook_thread):
+def open_workbook():
     workbook_path = Columns.FILE_NAME.value
     try:
         subprocess.call(['start', 'excel.exe', workbook_path], shell=True)
@@ -53,7 +50,7 @@ def open_workbook(open_workbook_thread):
         send_file_not_found_error(Columns.FILE_NAME.value)
 
 
-def close_workbook(open_workbook_thread):
+def close_workbook():
 
     # Path of the Excel workbook to open
     workbook_path = Columns.FILE_NAME.value
@@ -68,7 +65,6 @@ def close_workbook(open_workbook_thread):
     #
     # excel.Quit()
     #
-    open_workbook_thread.run()
 
 
 def open_setting():
