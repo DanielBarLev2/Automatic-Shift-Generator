@@ -7,7 +7,7 @@ import pathlib
 def set_path_confiig() -> ConfigParser:
     # get relative path of config.ini file
     path = str(pathlib.Path.cwd().joinpath('src/config/config.ini'))
-    ##### path = path.replace(str("\\"), str("/"))
+    # path = path.replace(str("\\"), str("/"))
     # set config file as config
     config = ConfigParser()
     config.read(path, encoding="utf8")

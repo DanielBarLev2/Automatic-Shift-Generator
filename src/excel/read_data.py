@@ -9,37 +9,43 @@ def find_limits(ws, start_date_and_time: datetime, end_date_and_time: datetime) 
     """
     Finds the column pointing on the desired start date, then finds the desired start time.
     Next, finds the column pointing on the desired end date, then finds the desired end time.
-    :param ws: excel shift worksheet.
-    :param start_date_and_time: the targeted start date.
-    :param end_date_and_time: the targeted end date.
-    :return: the start row and end row that containing start date time and end date time.
+    :param ws: Excel shift worksheet.
+    :param start_date_and_time: The targeted start date.
+    :param end_date_and_time: The targeted end date.
+    :return: The start row and end row that contain start date time and end date time.
     """
 
     start_row = 1
 
     # finds starting date
+    cell = ws.cell(column=Columns.DATE.value, row=start_row).value
+
     while start_row < Columns.MAX_ROW_LIMIT.value:
-        if isinstance(ws.cell(column=Columns.DATE.value, row=start_row).value, datetime):
-            if ws.cell(column=Columns.DATE.value, row=start_row).value.date() == start_date_and_time.date():
+        if isinstance(cell, datetime):
+            if cell.date() == start_date_and_time.date():
                 break
         start_row += 1
 
     date_to_start = start_row
 
     # finds starting time
+    cell = ws.cell(column=Columns.CONTROL_TIME.value, row=start_row).value
+
     while start_row < start_row + Columns.DATE_CELL_SIZE.value:
-        if ws.cell(column=Columns.CONTROL_TIME.value, row=start_row).value is not None:
+        if cell is not None:
             if str(start_date_and_time.time().hour) in \
-                    str.split(ws.cell(column=Columns.CONTROL_TIME.value, row=start_row).value)[0]:
+                    str.split(cell)[0]:
                 break
         start_row += 1
 
     end_row = start_row
 
     # finds ending date
+    cell = ws.cell(column=Columns.DATE.value, row=end_row).value
+
     while end_row < Columns.MAX_ROW_LIMIT.value:
-        if isinstance(ws.cell(column=Columns.DATE.value, row=end_row).value, datetime):
-            if ws.cell(column=Columns.DATE.value, row=end_row).value.date() == end_date_and_time.date():
+        if isinstance(cell, datetime):
+            if cell.date() == end_date_and_time.date():
                 break
         end_row += 1
 
@@ -66,16 +72,17 @@ def create_shift_list(worksheet, start_row: int, end_row: int, time_col: int) ->
 
     shift_list = []
 
+    cell = worksheet.cell(column=time_col, row=start_row)
     while start_row <= end_row:
         # Iterates through real cells and skips merged cells.
-        if type(worksheet.cell(column=time_col, row=start_row)).__name__ == 'Cell':
+        if type(cell).__name__ == 'Cell':
             # find only empty cells
-            if worksheet.cell(column=time_col, row=start_row).value is not None\
+            if cell.value is not None\
                     and worksheet.cell(column=(time_col + 1), row=start_row).value != " ":
 
                 # extracts start and end time from the workbook
-                start_time = int(str.split(str.split(str(worksheet.cell(column=time_col, row=start_row).value))[0], ":")[0])
-                end_time = int(str.split(str.split(worksheet.cell(column=time_col, row=start_row).value)[2], ":")[0])
+                start_time = int(str.split(str.split(str(cell.value))[0], ":")[0])
+                end_time = int(str.split(str.split(cell.value)[2], ":")[0])
 
                 # distinguishes between shift types and insert person
                 shift_type = None

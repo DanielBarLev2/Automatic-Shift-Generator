@@ -11,9 +11,9 @@ class Person:
 
     def is_available(self, shift) -> bool:
         """
-        test if this person can be inserted to shift according to his availability schedule.
-        :param shift: shift to insert person to.
-        :return: True if the person can be inserted to shift. otherwise, return False.
+        Tests if this person can be inserted to shift according to their availability schedule.
+        :param shift: Shift to insert person to.
+        :return: True if the person can be inserted to shift. Otherwise, return False.
         """
         # tests if person can support the current shift
         if (shift.shift_type == "Control" and self.control_support is True) or (shift.shift_type == "Guard" and
