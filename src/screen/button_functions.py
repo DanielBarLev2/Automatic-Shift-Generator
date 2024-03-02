@@ -1,7 +1,7 @@
 from src.screen.massage_box import send_file_not_found_error
 from src.constants.columns import Columns
-from src.algorithms.netta import netta, load_and_divide_workbook
-#import win32com.client as win32
+from src.algorithms.netta import netta
+import win32com.client as win32
 from datetime import datetime
 import subprocess
 import pathlib
@@ -51,16 +51,15 @@ def close_workbook():
     # Path of the Excel workbook to open
     workbook_path = Columns.FILE_NAME.value
 
-    # # Get the Excel application object
-    # excel = win32.Dispatch('Excel.Application')
-    #
-    # # Check if the workbook is open
-    # for wb in excel.Workbooks:
-    #     if wb.FullName == workbook_path:
-    #         wb.Close()
-    #
-    # excel.Quit()
-    #
+    # Get the Excel application object
+    excel = win32.Dispatch('Excel.Application')
+
+    # Check if the workbook is open
+    for wb in excel.Workbooks:
+        if wb.FullName == workbook_path:
+            wb.Close()
+
+    excel.Quit()
 
 
 def open_setting():

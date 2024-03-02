@@ -1,11 +1,10 @@
-# from src.classes.OpenWorkbookThread import OpenWorkbookThread
 from src.screen.button_functions import *
 from datetime import timedelta
 from tkinter import ttk
 import tkinter as tk
 import calendar
 
-HEADER = "הפקשטומטי של שלו"
+HEADER = "הפקשטומטי של שלווו"
 SCREEN_HEADER = "Netta"
 RESOLUTION = "480x350"
 ICON_PATH = "media/Netta_Art.ico"
@@ -138,7 +137,7 @@ def create_open_workbook_button(window):
 
 def create_close_workbook_button(window):
     close_button = tk.Button(window,
-                             text="Save Excel",
+                             text="Close Excel",
                              width=8,
                              command=lambda: close_workbook(),
                              bg='red',
